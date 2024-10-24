@@ -7,7 +7,7 @@
 use std::collections::HashSet;
 
 struct Graph {
-    adj: Vec<Vec<usize>>, 
+    adj: Vec<Vec<usize>>,
 }
 
 impl Graph {
@@ -19,7 +19,7 @@ impl Graph {
 
     fn add_edge(&mut self, src: usize, dest: usize) {
         self.adj[src].push(dest);
-        self.adj[dest].push(src); 
+        self.adj[dest].push(src);
     }
 
     fn dfs_util(&self, v: usize, visited: &mut HashSet<usize>, visit_order: &mut Vec<usize>) {
@@ -29,7 +29,7 @@ impl Graph {
     // Perform a depth-first search on the graph, return the order of visited nodes
     fn dfs(&self, start: usize) -> Vec<usize> {
         let mut visited = HashSet::new();
-        let mut visit_order = Vec::new(); 
+        let mut visit_order = Vec::new();
         self.dfs_util(start, &mut visited, &mut visit_order);
         visit_order
     }

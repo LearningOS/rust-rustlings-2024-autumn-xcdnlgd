@@ -3,7 +3,6 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -51,12 +50,58 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
+        let new_node = Box::new(TreeNode::new(value));
+        let mut current_node = &mut self.root;
+        if current_node.is_none() {
+            *current_node = Some(new_node);
+            return;
+        }
+
+        while current_node.is_some() {
+            match new_node.value.cmp(&current_node.as_ref().unwrap().value) {
+                Ordering::Less => {
+                    if current_node.as_ref().unwrap().left.is_none() {
+                        current_node.as_mut().unwrap().left = Some(new_node);
+                        return;
+                    }
+                    current_node = &mut current_node.as_mut().unwrap().left;
+                }
+                Ordering::Equal => {
+                    return;
+                }
+                Ordering::Greater => {
+                    if current_node.as_ref().unwrap().right.is_none() {
+                        current_node.as_mut().unwrap().right = Some(new_node);
+                        return;
+                    }
+                    current_node = &mut current_node.as_mut().unwrap().right;
+                }
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+        let mut current_node = &self.root;
+        if current_node.is_none() {
+            return false;
+        }
+
+        while current_node.is_some() {
+            match value.cmp(&current_node.as_ref().unwrap().value) {
+                Ordering::Less => {
+                    current_node = &current_node.as_ref().unwrap().left;
+                }
+                Ordering::Equal => {
+                    return true;
+                }
+                Ordering::Greater => {
+                    current_node = &current_node.as_ref().unwrap().right;
+                }
+            }
+        }
+        false
     }
 }
 
